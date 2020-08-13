@@ -17,6 +17,7 @@
     const awaj = '{{ 'awajima620' }}'.split(",")
     const awap = '{{ 'Awappu1226' }}'.split(",")
     const tige = '{{ 'tiger-mam' }}'.split(",")
+    const imme = '{{ 'Im_Mechimpo' }}'.split(",")
     const ctx = document.getElementById("myChart");
     const myLineChart = new Chart(ctx, {
         type: 'line',
@@ -33,62 +34,69 @@
                 ['Y4S2', "NOKK,WARDEN"],
                 ['Y4S3', 'AMARU,GOYO'],
                 ['Y4S4', 'KALI,WAMAI'],
-                ["Y5S1", "IANA,ORYX"]
+                ["Y5S1", "IANA,ORYX"],
+                ["Y5S2", ""]
             ],
             datasets: [
                 {
                     label: 'Da-reyotimotakak',
                     data: dare,
-                    borderColor: "rgb(100,0,0)",
+                    borderColor: "rgb(255,30,10)",
                     backgroundColor: "rgba(0,0,0,0)"
                 },
                 {
                     label: 'Im_yoncharu823',
                     data: imyo,
-                    borderColor: "rgb(255,0,0)",
+                    borderColor: "rgb(233,30,99)",
                     backgroundColor: "rgba(0,0,0,0)"
                 },
                 {
                     label: 'Im_Denchan',
                     data: imde,
-                    borderColor: "rgb(255,100,0)",
+                    borderColor: "rgb(156,39,176)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'tiger-mam',
+                    data: tige,
+                    borderColor: "rgb(103,58,183)",
                     backgroundColor: "rgba(0,0,0,0)"
                 },
                 {
                     label: 'Awappu1226',
                     data: awap,
-                    borderColor: "rgb(200,200,0)",
+                    borderColor: "rgb(63,81,181)",
                     backgroundColor: "rgba(0,0,0,0)"
                 },
                 {
                     label: 'Imanimite_iro',
                     data: iman,
-                    borderColor: "rgb(0,200,0)",
+                    borderColor: "rgb(3,169,244)",
                     backgroundColor: "rgba(0,0,0,0)"
                 },
                 {
                     label: 'Im_Kopanosuke',
                     data: imko,
-                    borderColor: "rgb(0,200,200)",
+                    borderColor: "rgb(0,150,136)",
                     backgroundColor: "rgba(0,0,0,0)"
                 },
 
                 {
                     label: 'Im_akiiiiisutani',
                     data: imak,
-                    borderColor: "rgb(0,0,255)",
+                    borderColor: "rgb(139,195,74)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_Mechimpo',
+                    data: imme,
+                    borderColor: "rgb(255,235,59)",
                     backgroundColor: "rgba(0,0,0,0)"
                 },
                 {
                     label: 'awajima620',
                     data: awaj,
-                    borderColor: "rgb(100,0,255)",
-                    backgroundColor: "rgba(0,0,0,0)"
-                },
-                {
-                    label: 'tiger-mam',
-                    data: tige,
-                    borderColor: "rgb(0,0,0)",
+                    borderColor: "rgb(255,152,0)",
                     backgroundColor: "rgba(0,0,0,0)"
                 }
             ],

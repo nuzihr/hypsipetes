@@ -1,21 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import * as httpm from 'typed-rest-client/HttpClient';
 
-const members = ["Im_yoncharu823", "Im_akiiiiisutani", "Da-reyorimotakak", "Im_Denchan", "Imanimite_iro", "Awappu1226", "Im_Kopanosuke", "awajima620", "tiger-mam"] as const
+const members = ["Im_yoncharu823", "Im_akiiiiisutani", "Da-reyorimotakak", "Im_Denchan", "Imanimite_iro", "Awappu1226", "Im_Kopanosuke", "awajima620", "tiger-mam", "Im_Mechimpo"] as const
 type member = typeof members[number]
 type score = {
   [key in member]: string
 }
 const ids: {[x in member]: string} = {
-  "Awappu1226" :  "ade8a216-1f66-4e0a-b289-7201959565af",
-  "Imanimite_iro" :  "6764136f-e65e-4421-81e9-a874895ce77c",
-  "Im_Denchan":  "415a3e39-1ab7-4099-ac8d-77dd8deb3dd0",
-  "Im_yoncharu823" :  "88b56176-f508-4eb4-84b7-0f290a800b91",
-  "Im_akiiiiisutani":  "c1b0882d-1b5d-47a4-afb8-1b3604a89a76",
-  "Da-reyorimotakak" :  "598bd73f-4eeb-4ccc-8305-d39ea1da38be",
-  "Im_Kopanosuke" :  "84dae58c-6cf8-458f-a4f9-b8cd7741b46d",
+  "Awappu1226": "ade8a216-1f66-4e0a-b289-7201959565af",
+  "Imanimite_iro": "6764136f-e65e-4421-81e9-a874895ce77c",
+  "Im_Denchan": "415a3e39-1ab7-4099-ac8d-77dd8deb3dd0",
+  "Im_yoncharu823": "88b56176-f508-4eb4-84b7-0f290a800b91",
+  "Im_akiiiiisutani": "c1b0882d-1b5d-47a4-afb8-1b3604a89a76",
+  "Da-reyorimotakak": "598bd73f-4eeb-4ccc-8305-d39ea1da38be",
+  "Im_Kopanosuke": "84dae58c-6cf8-458f-a4f9-b8cd7741b46d",
   "awajima620": "f6b64f22-473a-48dd-bfad-87d846a778e1",
-  "tiger-mam": "3f322ad9-d59d-4043-a134-fde9c63f2130"
+  "tiger-mam": "3f322ad9-d59d-4043-a134-fde9c63f2130",
+  "Im_Mechimpo": "82757c1c-834a-4d23-b1ab-51f8aa8f18e5"
 }
 
 @Injectable()
@@ -111,12 +112,18 @@ export class MmrService {
       maxrank: number,
       maxrankname: string
     }
-    return Object.entries<stats>(stats.seasons).map(([key, value]) => {
+    const result = Object.entries<stats>(stats.seasons).map(([key, value]) => {
       const mmr: number = value['AS_mmr']
       if (mmr === 0) {
         return NaN
       }
       return mmr
     })
+
+    const now = stats.ranked['mmr']
+    if (now === 0) result.push(NaN)
+    else result.push(now)
+
+    return result
   }
 }
