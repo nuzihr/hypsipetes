@@ -9,7 +9,7 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter()
+    new FastifyAdapter(),
   );
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
@@ -21,7 +21,7 @@ async function bootstrap() {
     },
     templates: join(__dirname, '..', 'views'),
   });
-  const port: number = Number(process.env.PORT) || 8080
+  const port: number = Number(process.env.PORT) || 8080;
   await app.listen(port, '0.0.0.0');
 }
 bootstrap();

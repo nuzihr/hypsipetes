@@ -8,8 +8,8 @@ export class MmrController {
   @Get()
   @Render('index.hbs')
   async getMmr(): Promise<any> {
-    const mmr = await this.mmrService.getMmr()
-    console.log(mmr)
-    return mmr
+    const mmr = await this.mmrService.getMmr();
+    console.log(mmr);
+    return mmr;
   }
 }
