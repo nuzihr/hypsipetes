@@ -25,6 +25,4 @@ COPY . .
 
 COPY --from=development /app/dist ./dist
 
-EXPOSE 80
-
 CMD ["node", "dist/main"]

@@ -21,6 +21,7 @@ async function bootstrap() {
     },
     templates: join(__dirname, '..', 'views'),
   });
-  await app.listen(80, '0.0.0.0');
+  const port: number = Number(process.env.PORT) || 80
+  await app.listen(port, '0.0.0.0');
 }
 bootstrap();
