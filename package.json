@@ -29,7 +29,6 @@
     "hbs": "^4.1.1",
     "point-of-view": "^4.3.0",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
     "typed-rest-client": "^1.7.3"
   },
   "devDependencies": {
@@ -47,6 +46,7 @@
     "eslint-plugin-import": "^2.20.1",
     "jest": "26.0.1",
     "prettier": "^1.19.1",
+    "rimraf": "^3.0.2",
     "supertest": "^4.0.2",
     "ts-jest": "26.1.0",
     "ts-loader": "^6.2.1",
