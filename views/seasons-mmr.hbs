@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<head>
+    <meta charset="utf-8" />
+    <title>App</title>
+</head>
+<body>
+<canvas id="myChart"></canvas>
+<script>
+    const dare = '{{ 'Da-reyorimotakak' }}'.split(",")
+    const imyo = '{{ 'Im_yoncharu823' }}'.split(",")
+    const imak = '{{ 'Im_akiiiiisutani' }}'.split(",")
+    const imde = '{{ 'Im_Denchan' }}'.split(",")
+    const imko = '{{ 'Im_Kopanosuke' }}'.split(",")
+    const iman = '{{ 'Imanimite_iro' }}'.split(",")
+    const awaj = '{{ 'awajima620' }}'.split(",")
+    const awap = '{{ 'Awappu1226' }}'.split(",")
+    const tige = '{{ 'tiger-mam' }}'.split(",")
+    const imme = '{{ 'Im_Mechimpo' }}'.split(",")
+    const ctx = document.getElementById("myChart");
+    const myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [
+                ['Y2S2', 'OPERATION HEALTH'],
+                ['Y2S3', 'LESION,YING'],
+                ['Y2S4', 'DOKKAEBI,ALIBI'],
+                ['Y3S1', 'LION,FINKA'],
+                ['Y3S2', 'ALIBI,MAESTRO'],
+                ['Y3S3', 'CLASH,MAVELICK'],
+                ['Y3S4', 'KAID,NOMAD'],
+                ['Y4S1', 'GRIDLOCK,MOZZIE'],
+                ['Y4S2', "NOKK,WARDEN"],
+                ['Y4S3', 'AMARU,GOYO'],
+                ['Y4S4', 'KALI,WAMAI'],
+                ["Y5S1", "IANA,ORYX"],
+                ["Y5S2", ""]
+            ],
+            datasets: [
+                {
+                    label: 'Da-reyotimotakak',
+                    data: dare,
+                    borderColor: "rgb(255,30,10)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_yoncharu823',
+                    data: imyo,
+                    borderColor: "rgb(233,30,99)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_Denchan',
+                    data: imde,
+                    borderColor: "rgb(156,39,176)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'tiger-mam',
+                    data: tige,
+                    borderColor: "rgb(103,58,183)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Awappu1226',
+                    data: awap,
+                    borderColor: "rgb(63,81,181)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Imanimite_iro',
+                    data: iman,
+                    borderColor: "rgb(3,169,244)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_Kopanosuke',
+                    data: imko,
+                    borderColor: "rgb(0,150,136)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+
+                {
+                    label: 'Im_akiiiiisutani',
+                    data: imak,
+                    borderColor: "rgb(139,195,74)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_Mechimpo',
+                    data: imme,
+                    borderColor: "rgb(255,235,59)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'awajima620',
+                    data: awaj,
+                    borderColor: "rgb(255,152,0)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                }
+            ],
+        },
+        options: {
+            showLines: true,
+            title: {
+                display: true,
+                text: 'MMR'
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                      autoSkip: false
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        suggestedMax: 3500,
+                        suggestedMin: 2000,
+                        stepSize: 250,
+                        callback: function(value, index, values){
+                            return  value
+                        }
+                    }
+                }]
+            },
+        }
+    });
+</script>
+<ul>
+    <li><a href="/">Top</a></li>
+</ul>
+</body>
+</html><!DOCTYPE html>
