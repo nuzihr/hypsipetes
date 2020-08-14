@@ -1,4 +1,4 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { applyDecorators, HttpService, Injectable, OnModuleInit } from '@nestjs/common';
 import * as pRetry from 'p-retry';
 import * as pTimeout from 'p-timeout';
 
@@ -64,23 +64,35 @@ type seasonStats = {
   maxrankname: string;
 };
 
-const ids: { [x in member]: string } = {
-  Awappu1226: 'ade8a216-1f66-4e0a-b289-7201959565af',
-  Imanimite_iro: '6764136f-e65e-4421-81e9-a874895ce77c',
-  Im_Denchan: '415a3e39-1ab7-4099-ac8d-77dd8deb3dd0',
-  Im_yoncharu823: '88b56176-f508-4eb4-84b7-0f290a800b91',
-  Im_akiiiiisutani: 'c1b0882d-1b5d-47a4-afb8-1b3604a89a76',
-  'Da-reyorimotakak': '598bd73f-4eeb-4ccc-8305-d39ea1da38be',
-  Im_Kopanosuke: '84dae58c-6cf8-458f-a4f9-b8cd7741b46d',
-  awajima620: 'f6b64f22-473a-48dd-bfad-87d846a778e1',
-  'tiger-mam': '3f322ad9-d59d-4043-a134-fde9c63f2130',
-  Im_Mechimpo: '82757c1c-834a-4d23-b1ab-51f8aa8f18e5',
-};
-
 @Injectable()
-export class SeasonsService {
+export class SeasonsService implements OnModuleInit {
+  statsData: {[key in member]: allStats}
+  idData: {[key in member]: string}
   constructor(private httpService: HttpService) {
     this.httpService = httpService;
+    this.idData = {
+      'Da-reyorimotakak': '598bd73f-4eeb-4ccc-8305-d39ea1da38be',
+      Im_yoncharu823: '88b56176-f508-4eb4-84b7-0f290a800b91',
+      Im_Denchan: '415a3e39-1ab7-4099-ac8d-77dd8deb3dd0',
+      'tiger-mam': '3f322ad9-d59d-4043-a134-fde9c63f2130',
+      Awappu1226: 'ade8a216-1f66-4e0a-b289-7201959565af',
+      Imanimite_iro: '6764136f-e65e-4421-81e9-a874895ce77c',
+      Im_akiiiiisutani: 'c1b0882d-1b5d-47a4-afb8-1b3604a89a76',
+      Im_Kopanosuke: '84dae58c-6cf8-458f-a4f9-b8cd7741b46d',
+      Im_Mechimpo: '82757c1c-834a-4d23-b1ab-51f8aa8f18e5',
+      awajima620: 'f6b64f22-473a-48dd-bfad-87d846a778e1',
+    }
+  }
+
+  async onModuleInit(): Promise<any> {
+    const stats = await Promise.all(
+      members.map(async memberName => {
+        const id = this.idData[memberName];
+        const result = await this.getStatsFromApiWithRetry(id);
+        return { [memberName]: result }
+      }));
+    this.statsData = Object.assign({}, ...stats);
+    console.log(`The Seasons module has been initialized.`);
   }
 
   private async getStatsFromApiWithRetry(userId: string): Promise<any> {
@@ -96,7 +108,7 @@ export class SeasonsService {
         return result.data;
       },
       {
-        retries: 4,
+        retries: 9,
         onFailedAttempt: error => {
           console.log(
             `Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`,
@@ -110,32 +122,49 @@ export class SeasonsService {
   async getMmr(): Promise<score> {
     const point = await Promise.all(
       members.map(async memberName => {
-        const userId = ids[memberName];
-        const stats = await this.getStatsFromApiWithRetry(userId);
-        if (!stats) return;
-        const mmrs = this.getMmrBySeasons(stats);
+        const stats = this.statsData[memberName];
+        const mmrs = Object.entries<seasonStats>(stats.seasons).map(
+          ([key, value]) => {
+            const mmr: number = value['AS_mmr'];
+            if (mmr === 0) {
+              return NaN;
+            }
+            return mmr;
+          },
+        );
+
+        const now = stats.ranked['mmr'];
+        if (now === 0) mmrs.push(NaN);
+        else mmrs.push(now);
         return { [memberName]: mmrs.toString() };
       }),
     );
-    const result = Object.assign({}, ...point);
-    return result;
+    return Object.assign({}, ...point);
   }
 
-  private getMmrBySeasons(stats: allStats): number[] {
-    const result = Object.entries<seasonStats>(stats.seasons).map(
-      ([key, value]) => {
-        const mmr: number = value['AS_mmr'];
-        if (mmr === 0) {
-          return NaN;
+  async getKillRatio(): Promise<score> {
+    const point = await Promise.all(
+      members.map(async memberName => {
+        const stats = this.statsData[memberName];
+        const ratios = Object.entries<seasonStats>(stats.seasons).map(
+          ([key, value]) => {
+            const kill = value['AS_kills']
+            if (kill === 0) return NaN;
+            const death = value['AS_deaths'] > 0 ? value['AS_deaths'] : 1
+            return kill/death
+          });
+
+        const kill = stats.ranked['allkills']
+        if (kill === 0) {
+          ratios.push(NaN);
+        } else {
+          const death = stats.ranked['alldeaths'] > 0 ? stats.ranked['alldeaths'] : 1
+          ratios.push(kill / death)
         }
-        return mmr;
-      },
+        ratios.splice(0, 8)
+        return { [memberName]: ratios.toString() };
+      }),
     );
-
-    const now = stats.ranked['mmr'];
-    if (now === 0) result.push(NaN);
-    else result.push(now);
-
-    return result;
+    return Object.assign({}, ...point);
   }
 }

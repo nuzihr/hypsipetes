@@ -23,14 +23,6 @@
         type: 'line',
         data: {
             labels: [
-                ['Y2S2', 'OPERATION HEALTH'],
-                ['Y2S3', 'LESION,YING'],
-                ['Y2S4', 'DOKKAEBI,ALIBI'],
-                ['Y3S1', 'LION,FINKA'],
-                ['Y3S2', 'ALIBI,MAESTRO'],
-                ['Y3S3', 'CLASH,MAVELICK'],
-                ['Y3S4', 'KAID,NOMAD'],
-                ['Y4S1', 'GRIDLOCK,MOZZIE'],
                 ['Y4S2', "NOKK,WARDEN"],
                 ['Y4S3', 'AMARU,GOYO'],
                 ['Y4S4', 'KALI,WAMAI'],
@@ -105,7 +97,7 @@
             showLines: true,
             title: {
                 display: true,
-                text: 'MMR'
+                text: 'キルレ'
             },
             scales: {
                 xAxes: [{
@@ -115,9 +107,9 @@
                 }],
                 yAxes: [{
                     ticks: {
-                        suggestedMax: 3500,
-                        suggestedMin: 2000,
-                        stepSize: 250,
+                        suggestedMax: 2,
+                        suggestedMin: 0,
+                        stepSize: 0.25,
                         callback: function(value, index, values){
                             return  value
                         }
