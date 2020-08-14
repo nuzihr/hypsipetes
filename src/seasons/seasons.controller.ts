@@ -3,9 +3,7 @@ import { SeasonsService } from './seasons.service';
 
 @Controller('seasons')
 export class SeasonsController {
-  constructor(private readonly mmrService: SeasonsService) {
-
-  }
+  constructor(private readonly mmrService: SeasonsService) {}
 
   @Get()
   @Render('index.hbs')

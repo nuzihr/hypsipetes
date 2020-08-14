@@ -1,4 +1,9 @@
-import { applyDecorators, HttpService, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  applyDecorators,
+  HttpService,
+  Injectable,
+  OnModuleInit,
+} from '@nestjs/common';
 import * as pRetry from 'p-retry';
 import * as pTimeout from 'p-timeout';
 
@@ -66,8 +71,8 @@ type seasonStats = {
 
 @Injectable()
 export class SeasonsService implements OnModuleInit {
-  statsData: {[key in member]: allStats}
-  idData: {[key in member]: string}
+  statsData: { [key in member]: allStats };
+  idData: { [key in member]: string };
   constructor(private httpService: HttpService) {
     this.httpService = httpService;
     this.idData = {
@@ -81,7 +86,7 @@ export class SeasonsService implements OnModuleInit {
       Im_Kopanosuke: '84dae58c-6cf8-458f-a4f9-b8cd7741b46d',
       Im_Mechimpo: '82757c1c-834a-4d23-b1ab-51f8aa8f18e5',
       awajima620: 'f6b64f22-473a-48dd-bfad-87d846a778e1',
-    }
+    };
   }
 
   async onModuleInit(): Promise<any> {
@@ -89,8 +94,9 @@ export class SeasonsService implements OnModuleInit {
       members.map(async memberName => {
         const id = this.idData[memberName];
         const result = await this.getStatsFromApiWithRetry(id);
-        return { [memberName]: result }
-      }));
+        return { [memberName]: result };
+      }),
+    );
     this.statsData = Object.assign({}, ...stats);
     console.log(`The Seasons module has been initialized.`);
   }
@@ -148,20 +154,22 @@ export class SeasonsService implements OnModuleInit {
         const stats = this.statsData[memberName];
         const ratios = Object.entries<seasonStats>(stats.seasons).map(
           ([key, value]) => {
-            const kill = value['AS_kills']
+            const kill = value['AS_kills'];
             if (kill === 0) return NaN;
-            const death = value['AS_deaths'] > 0 ? value['AS_deaths'] : 1
-            return kill/death
-          });
+            const death = value['AS_deaths'] > 0 ? value['AS_deaths'] : 1;
+            return kill / death;
+          },
+        );
 
-        const kill = stats.ranked['allkills']
+        const kill = stats.ranked['allkills'];
         if (kill === 0) {
           ratios.push(NaN);
         } else {
-          const death = stats.ranked['alldeaths'] > 0 ? stats.ranked['alldeaths'] : 1
-          ratios.push(kill / death)
+          const death =
+            stats.ranked['alldeaths'] > 0 ? stats.ranked['alldeaths'] : 1;
+          ratios.push(kill / death);
         }
-        ratios.splice(0, 8)
+        ratios.splice(0, 8);
         return { [memberName]: ratios.toString() };
       }),
     );
