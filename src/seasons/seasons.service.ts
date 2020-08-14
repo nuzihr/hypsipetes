@@ -1,6 +1,6 @@
 import { HttpService, Injectable } from '@nestjs/common';
-import * as pRetry from 'p-retry'
-import * as pTimeout from 'p-timeout'
+import * as pRetry from 'p-retry';
+import * as pTimeout from 'p-timeout';
 
 const members = [
   'Im_yoncharu823',
@@ -80,30 +80,38 @@ const ids: { [x in member]: string } = {
 @Injectable()
 export class SeasonsService {
   constructor(private httpService: HttpService) {
-    this.httpService = httpService
+    this.httpService = httpService;
   }
 
   private async getStatsFromApiWithRetry(userId: string): Promise<any> {
     const url = `https://r6.apitab.com/player/${userId}`;
-    const stats = await pRetry(async () => {
-      const result = await pTimeout(this.httpService.get(url).toPromise(), 1000, 'http request timeout')
-      if (!result.data) return null;
-      return result.data
-    }, {
-      retries: 4,
-      onFailedAttempt: error => {
-        console.log(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`);
-      }
-    });
-    return stats
+    const stats = await pRetry(
+      async () => {
+        const result = await pTimeout(
+          this.httpService.get(url).toPromise(),
+          1000,
+          'http request timeout',
+        );
+        if (!result.data) return null;
+        return result.data;
+      },
+      {
+        retries: 4,
+        onFailedAttempt: error => {
+          console.log(
+            `Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`,
+          );
+        },
+      },
+    );
+    return stats;
   }
-
 
   async getMmr(): Promise<score> {
     const point = await Promise.all(
       members.map(async memberName => {
         const userId = ids[memberName];
-        const stats = await this.getStatsFromApiWithRetry(userId)
+        const stats = await this.getStatsFromApiWithRetry(userId);
         if (!stats) return;
         const mmrs = this.getMmrBySeasons(stats);
         return { [memberName]: mmrs.toString() };
@@ -114,13 +122,15 @@ export class SeasonsService {
   }
 
   private getMmrBySeasons(stats: allStats): number[] {
-    const result = Object.entries<seasonStats>(stats.seasons).map(([key, value]) => {
-      const mmr: number = value['AS_mmr'];
-      if (mmr === 0) {
-        return NaN;
-      }
-      return mmr;
-    });
+    const result = Object.entries<seasonStats>(stats.seasons).map(
+      ([key, value]) => {
+        const mmr: number = value['AS_mmr'];
+        if (mmr === 0) {
+          return NaN;
+        }
+        return mmr;
+      },
+    );
 
     const now = stats.ranked['mmr'];
     if (now === 0) result.push(NaN);
