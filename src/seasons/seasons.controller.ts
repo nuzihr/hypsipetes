@@ -1,12 +1,12 @@
 import { Controller, Get, Render } from '@nestjs/common';
-import { MmrService } from './mmr.service';
+import { SeasonsService } from './seasons.service';
 
 @Controller('mmr')
-export class MmrController {
-  constructor(private readonly mmrService: MmrService) {}
+export class SeasonsController {
+  constructor(private readonly mmrService: SeasonsService) {}
 
   @Get()
-  @Render('index.hbs')
+  @Render('seasons-mmr.hbs')
   async getMmr(): Promise<any> {
     const mmr = await this.mmrService.getMmr();
     console.log(mmr);

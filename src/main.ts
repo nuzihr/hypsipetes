@@ -9,7 +9,7 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ trustProxy: true }),
+    new FastifyAdapter(),
   );
   app.enableCors();
   app.useStaticAssets({

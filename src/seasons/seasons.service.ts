@@ -31,7 +31,7 @@ const ids: { [x in member]: string } = {
 };
 
 @Injectable()
-export class MmrService {
+export class SeasonsService {
   client: httpm.HttpClient;
   constructor() {
     this.client = new httpm.HttpClient('APP_NAME', [], { keepAlive: true });
