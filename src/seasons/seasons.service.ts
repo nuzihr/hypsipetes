@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import * as httpm from 'typed-rest-client/HttpClient';
+import { HttpService, Injectable } from '@nestjs/common';
+import * as pRetry from 'p-retry'
+import * as pTimeout from 'p-timeout'
 
 const members = [
   'Im_yoncharu823',
@@ -17,6 +18,52 @@ type member = typeof members[number];
 type score = {
   [key in member]: string;
 };
+type allStats = {
+  status: any;
+  found: any;
+  player: any;
+  custom: any;
+  refresh: any;
+  aliases: any;
+  stats: any;
+  ranked: any;
+  social: any;
+  operators: any;
+  overlay: any;
+  history: any;
+  seasons: { [x: string]: seasonStats };
+  op_main: any;
+};
+type seasonStats = {
+  NA_mmr: number;
+  NA_champ: number;
+  NA_wins: number;
+  NA_losses: number;
+  NA_abandons: number;
+  NA_kills: number;
+  NA_deaths: number;
+  EU_mmr: number;
+  EU_champ: number;
+  EU_wins: number;
+  EU_losses: number;
+  EU_abandons: number;
+  EU_kills: number;
+  EU_deaths: number;
+  AS_mmr: number;
+  AS_champ: number;
+  AS_wins: number;
+  AS_losses: number;
+  AS_abandons: number;
+  AS_kills: number;
+  AS_deaths: number;
+  seasonname: string;
+  seasonclass: string;
+  champ: string;
+  maxmmr: number;
+  maxrank: number;
+  maxrankname: string;
+};
+
 const ids: { [x in member]: string } = {
   Awappu1226: 'ade8a216-1f66-4e0a-b289-7201959565af',
   Imanimite_iro: '6764136f-e65e-4421-81e9-a874895ce77c',
@@ -32,15 +79,33 @@ const ids: { [x in member]: string } = {
 
 @Injectable()
 export class SeasonsService {
-  client: httpm.HttpClient;
-  constructor() {
-    this.client = new httpm.HttpClient('APP_NAME', [], { keepAlive: true });
+  constructor(private httpService: HttpService) {
+    this.httpService = httpService
   }
+
+  private async getStatsFromApiWithRetry(userId: string): Promise<any> {
+    const url = `https://r6.apitab.com/player/${userId}`;
+    const stats = await pRetry(async () => {
+      const result = await pTimeout(this.httpService.get(url).toPromise(), 1000, 'http request timeout')
+      if (!result.data) return null;
+      return result.data
+    }, {
+      retries: 4,
+      onFailedAttempt: error => {
+        console.log(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`);
+      }
+    });
+    return stats
+  }
+
 
   async getMmr(): Promise<score> {
     const point = await Promise.all(
       members.map(async memberName => {
-        const mmrs = await this.getMmrByName(memberName);
+        const userId = ids[memberName];
+        const stats = await this.getStatsFromApiWithRetry(userId)
+        if (!stats) return;
+        const mmrs = this.getMmrBySeasons(stats);
         return { [memberName]: mmrs.toString() };
       }),
     );
@@ -48,89 +113,8 @@ export class SeasonsService {
     return result;
   }
 
-  private async getMmrByName(username: member) {
-    const ids: string[] = await this.getIdByName(username);
-    const userid = ids[0];
-    const stats = await this.getStatsById(userid);
-    return this.getMmrBySeasons(stats);
-  }
-
-  private async getIdByName(name: member): Promise<string[]> {
-    if (!!ids[name]) {
-      return [ids[name]];
-    }
-
-    const baseUrl: string = 'https://r6.apitab.com/search/psn';
-    const url = `${baseUrl}/${name}`;
-
-    type player = {
-      authorized: boolean;
-      status: number;
-      foundmatch: boolean;
-      requested: string;
-      players: any;
-    };
-    const response: httpm.HttpClientResponse = await this.client.get(url);
-    const result: player = JSON.parse(await response.readBody());
-    return Object.keys(result.players);
-  }
-
-  private async getStatsById(userid: string): Promise<any> {
-    const baseUrl: string = 'https://r6.apitab.com/player';
-    const url = `${baseUrl}/${userid}`;
-
-    type stats = {
-      status: any;
-      found: any;
-      player: any;
-      custom: any;
-      refresh: any;
-      aliases: any;
-      stats: any;
-      ranked: any;
-      social: any;
-      operators: any;
-      overlay: any;
-      history: any;
-      seasons: any;
-      op_main: any;
-    };
-    const response: httpm.HttpClientResponse = await this.client.get(url);
-    const result: stats = JSON.parse(await response.readBody());
-    return result;
-  }
-
-  private async getMmrBySeasons(stats: any): Promise<number[]> {
-    type stats = {
-      NA_mmr: number;
-      NA_champ: number;
-      NA_wins: number;
-      NA_losses: number;
-      NA_abandons: number;
-      NA_kills: number;
-      NA_deaths: number;
-      EU_mmr: number;
-      EU_champ: number;
-      EU_wins: number;
-      EU_losses: number;
-      EU_abandons: number;
-      EU_kills: number;
-      EU_deaths: number;
-      AS_mmr: number;
-      AS_champ: number;
-      AS_wins: number;
-      AS_losses: number;
-      AS_abandons: number;
-      AS_kills: number;
-      AS_deaths: number;
-      seasonname: string;
-      seasonclass: string;
-      champ: string;
-      maxmmr: number;
-      maxrank: number;
-      maxrankname: string;
-    };
-    const result = Object.entries<stats>(stats.seasons).map(([key, value]) => {
+  private getMmrBySeasons(stats: allStats): number[] {
+    const result = Object.entries<seasonStats>(stats.seasons).map(([key, value]) => {
       const mmr: number = value['AS_mmr'];
       if (mmr === 0) {
         return NaN;
