@@ -24,6 +24,20 @@ export class OperatorsService {
     return Object.assign({}, ...membersOperator);
   }
 
+  async getSeasonalOperator(operatorName: string) {
+    const membersOperator = members.map(memberName => {
+      const stats: Stats = this.statsRepository.findByName(memberName);
+      const kills = stats.getSeasonalKillsByOperator(operatorName);
+      const deaths = stats.getSeasonalDeathsByOperator(operatorName);
+      const kd = kills === 0 ? 0 : deaths === 0 ? Infinity : kills / deaths;
+      const wins = stats.getSeasonalWinsByOperator(operatorName);
+      const losses = stats.getSeasonalLossesByOperator(operatorName);
+      const wl = wins === 0 ? 0 : losses === 0 ? Infinity : wins / losses;
+      return { [memberName]: `[{ x: ${kd}, y: ${wl} }]` };
+    });
+    return Object.assign({}, ...membersOperator);
+  }
+
   async getAllOperator() {
     const opes = [
       'Smoke',
