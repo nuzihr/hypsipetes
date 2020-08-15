@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<head>
+    <meta charset="utf-8" />
+    <title>日向坂で会いましょう</title>
+</head>
+<body>
+<canvas id="myChart"></canvas>
+<script>
+    function decodeHtml(html) {
+        let txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return JSON.parse(txt.value);
+    }
+
+    const dare = decodeHtml('{{ 'Da-reyorimotakak' }}')
+    const imyo = decodeHtml('{{ 'Im_yoncharu823' }}')
+    const imak = decodeHtml('{{ 'Im_akiiiiisutani' }}')
+    const imde = decodeHtml('{{ 'Im_Denchan' }}')
+    const imko = decodeHtml('{{ 'Im_Kopanosuke' }}')
+    const iman = decodeHtml('{{ 'Imanimite_iro' }}')
+    const awaj = decodeHtml('{{ 'awajima620' }}')
+    const awap = decodeHtml('{{ 'Awappu1226' }}')
+    const tige = decodeHtml('{{ 'tiger-mam' }}')
+    const imme = decodeHtml('{{ 'Im_Mechimpo' }}')
+
+    const ctx = document.getElementById("myChart");
+    let myScatterChart = new Chart(ctx, {
+        plugins: [ChartDataLabels],
+        type: 'scatter',
+        data: {
+            datasets: [
+                {
+                    label: 'Da-reyorimotakak',
+                    data: dare,
+                    borderColor: "rgb(255,30,10)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_yoncharu823',
+                    data: imyo,
+                    borderColor: "rgb(233,30,99)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_Denchan',
+                    data: imde,
+                    borderColor: "rgb(156,39,176)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'tiger-mam',
+                    data: tige,
+                    borderColor: "rgb(103,58,183)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Awappu1226',
+                    data: awap,
+                    borderColor: "rgb(63,81,181)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Imanimite_iro',
+                    data: iman,
+                    borderColor: "rgb(3,169,244)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_Kopanosuke',
+                    data: imko,
+                    borderColor: "rgb(0,150,136)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+
+                {
+                    label: 'Im_akiiiiisutani',
+                    data: imak,
+                    borderColor: "rgb(139,195,74)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'Im_Mechimpo',
+                    data: imme,
+                    borderColor: "rgb(255,235,59)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                },
+                {
+                    label: 'awajima620',
+                    data: awaj,
+                    borderColor: "rgb(255,152,0)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                }
+            ],
+        },
+        options:{
+            title: {
+                display: true,
+                text: 'オペレーター'
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'キルレ'
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 2,
+                        stepSize: 0.25
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: '勝利敗北比'
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        suggestedMax: 2,
+                        stepSize: 0.25
+                    }
+                }]
+            },
+            plugins: {
+                datalabels: {
+                    formatter: function(v, ctx){
+                        ctx.dataIndex++;
+                        switch (ctx.dataIndex){
+                            case 0:
+                                return "Smoke"
+                            case 1:
+                                return "Mute"
+                            case 2:
+                                return "Sledge"
+                            case 3:
+                                return "Thatcher"
+                            case 4:
+                                return "Castle"
+                            case 5:
+                                return "Ash"
+                            case 6:
+                                return "Pulse"
+                            case 7:
+                                return "Thermite"
+                            case 8:
+                                return "Doc"
+                            case 9:
+                                return "Rook"
+                            case 10:
+                                return "Twitch"
+                            case 11:
+                                return "Montagne"
+                            case 12:
+                                return "Glaz"
+                            case 13:
+                                return "Fuze"
+                            case 14:
+                                return "Kapkan"
+                            case 15:
+                                return "Tachanka"
+                            case 16:
+                                return "Blitz"
+                            case 17:
+                                return "Iq"
+                            case 18:
+                                return "Jager"
+                            case 19:
+                                return "Bandit"
+                            case 20:
+                                return "Buck"
+                            case 21:
+                                return "Frost"
+                            case 22:
+                                return "Blackbeard"
+                            case 23:
+                                return "Valkyrie"
+                            case 24:
+                                return "Capitao"
+                            case 25:
+                                return "Hibana"
+                            case 26:
+                                return "Echo"
+                            case 27:
+                                return "Jackal"
+                            case 28:
+                                return "Mira"
+                            case 29:
+                                return "Ying"
+                            case 30:
+                                return "Lesion"
+                            case 31:
+                                return "Ela"
+                            case 32:
+                                return "Zofia"
+                            case 33:
+                                return "Dokkaebi"
+                            case 34:
+                                return "Vigil"
+                            case 35:
+                                return "Lion"
+                            case 36:
+                                return "Finka"
+                            case 37:
+                                return "Maestro"
+                            case 38:
+                                return "Alibi"
+                            case 39:
+                                return "Maverick"
+                            case 40:
+                                return "Clash"
+                            case 41:
+                                return "Nomad"
+                            case 42:
+                                return "Kaid"
+                            case 43:
+                                return "Mozzie"
+                            case 44:
+                                return "Gridlock"
+                            case 45:
+                                return "Nakk"
+                            case 46:
+                                return "Warden"
+                            case 47:
+                                return "Goyo"
+                            case 48:
+                                return "Amaru"
+                            case 49:
+                                return "Kali"
+                            case 50:
+                                return "Wamai"
+                            case 51:
+                                return "Oryx"
+                            case 52:
+                                return "Iana"
+                            case 53:
+                                return "Caveira"
+                        }
+                        return ctx.dataIndex
+                    },
+                    labels: {
+                        title: {}
+                    }
+                }
+            }
+        }
+    });
+</script>
+<ul>
+    <li><a href="/">Top</a></li>
+</ul>
+</body>
+</html><!DOCTYPE html>

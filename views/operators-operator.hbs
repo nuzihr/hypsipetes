@@ -8,27 +8,21 @@
 <body>
 <canvas id="myChart"></canvas>
 <script>
-    const dare = '{{ 'Da-reyorimotakak' }}'.split(",")
-    const imyo = '{{ 'Im_yoncharu823' }}'.split(",")
-    const imak = '{{ 'Im_akiiiiisutani' }}'.split(",")
-    const imde = '{{ 'Im_Denchan' }}'.split(",")
-    const imko = '{{ 'Im_Kopanosuke' }}'.split(",")
-    const iman = '{{ 'Imanimite_iro' }}'.split(",")
-    const awaj = '{{ 'awajima620' }}'.split(",")
-    const awap = '{{ 'Awappu1226' }}'.split(",")
-    const tige = '{{ 'tiger-mam' }}'.split(",")
-    const imme = '{{ 'Im_Mechimpo' }}'.split(",")
+    const dare = {{ 'Da-reyorimotakak' }}
+    const imyo = {{ 'Im_yoncharu823' }}
+    const imak = {{ 'Im_akiiiiisutani' }}
+    const imde = {{ 'Im_Denchan' }}
+    const imko = {{ 'Im_Kopanosuke' }}
+    const iman = {{ 'Imanimite_iro' }}
+    const awaj = {{ 'awajima620' }}
+    const awap = {{ 'Awappu1226' }}
+    const tige = {{ 'tiger-mam' }}
+    const imme = {{ 'Im_Mechimpo' }}
+
     const ctx = document.getElementById("myChart");
-    const myLineChart = new Chart(ctx, {
-        type: 'line',
+    var myScatterChart = new Chart(ctx, {
+        type: 'scatter',
         data: {
-            labels: [
-                ['Y4S2', "NOKK,WARDEN"],
-                ['Y4S3', 'AMARU,GOYO'],
-                ['Y4S4', 'KALI,WAMAI'],
-                ["Y5S1", "IANA,ORYX"],
-                ["Y5S2", "ACE,MELUSI"]
-            ],
             datasets: [
                 {
                     label: 'Da-reyotimotakak',
@@ -93,29 +87,35 @@
                 }
             ],
         },
-        options: {
-            showLines: true,
+        options:{
             title: {
                 display: true,
-                text: 'キルレ'
+                text: 'オペレーター'
             },
             scales: {
                 xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'キルレ'
+                    },
                     ticks: {
-                      autoSkip: false
+                        suggestedMin: 0,
+                        suggestedMax: 2,
+                        stepSize: 0.25
                     }
                 }],
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: '勝利敗北比'
+                    },
                     ticks: {
-                        suggestedMax: 2,
                         suggestedMin: 0,
-                        stepSize: 0.25,
-                        callback: function(value, index, values){
-                            return  value
-                        }
+                        suggestedMax: 2,
+                        stepSize: 0.25
                     }
                 }]
-            },
+            }
         }
     });
 </script>

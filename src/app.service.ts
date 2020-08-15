@@ -19,7 +19,6 @@ export type member = typeof members[number];
 
 @Injectable()
 export class AppService implements OnModuleInit {
-
   idData: { [key in member]: string };
   statsRepository;
 
@@ -37,15 +36,30 @@ export class AppService implements OnModuleInit {
       Im_Mechimpo: '82757c1c-834a-4d23-b1ab-51f8aa8f18e5',
       awajima620: 'f6b64f22-473a-48dd-bfad-87d846a778e1',
     };
-    this.statsRepository = StatsRepository.getInstance()
+    this.statsRepository = StatsRepository.getInstance();
   }
 
   async onModuleInit(): Promise<any> {
     await Promise.all(
       members.map(async memberName => {
         const id = this.idData[memberName];
-        const { stats, ranked, operator, seasons, op_main, aliases } = await this.getStatsFromApiWithRetry(id);
-        await this.statsRepository.createAndSave(memberName, stats, ranked, operator, seasons, op_main, aliases);
+        const {
+          stats,
+          ranked,
+          operators,
+          seasons,
+          op_main,
+          aliases,
+        } = await this.getStatsFromApiWithRetry(id);
+        await this.statsRepository.createAndSave(
+          memberName,
+          stats,
+          ranked,
+          operators,
+          seasons,
+          op_main,
+          aliases,
+        );
         return;
       }),
     );

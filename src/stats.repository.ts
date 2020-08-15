@@ -11,14 +11,22 @@ export class StatsRepository {
 
   table: Map<string, typeof Stats>;
   private constructor() {
-    this.table = new Map<string, typeof Stats>()
+    this.table = new Map<string, typeof Stats>();
   }
 
   findByName(name: string) {
     return this.table[name];
   }
 
-  createAndSave(name, stats, ranked, operator, seasons, op_main, aliases) {
-    this.table[name] = new Stats(name, stats, ranked, operator, seasons, op_main, aliases);
+  createAndSave(name, stats, ranked, operators, seasons, op_main, aliases) {
+    this.table[name] = new Stats(
+      name,
+      stats,
+      ranked,
+      operators,
+      seasons,
+      op_main,
+      aliases,
+    );
   }
 }
