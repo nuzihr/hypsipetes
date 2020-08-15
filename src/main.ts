@@ -11,7 +11,6 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
-  app.enableCors();
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
     prefix: '/public/',
