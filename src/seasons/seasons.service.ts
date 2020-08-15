@@ -13,9 +13,9 @@ export class SeasonsService {
   async getMmr() {
     const membersMmrs = members.map(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
-      const mmrs = stats.getMmrsBySeasons().map((mmr) => mmr===0 ? NaN : mmr);
+      const mmrs = stats.getMmrsBySeasons().map(mmr => (mmr === 0 ? NaN : mmr));
       const mmr = stats.ranked['mmr'];
-      mmrs.push(mmr===0 ? NaN : mmr);
+      mmrs.push(mmr === 0 ? NaN : mmr);
       return { [memberName]: mmrs.toString() };
     });
     return Object.assign({}, ...membersMmrs);
@@ -26,12 +26,18 @@ export class SeasonsService {
       const stats: Stats = this.statsRepository.findByName(memberName);
       const kills = stats.getKillsBySeasons();
       const deaths = stats.getDeathsBySeasons();
-      const ratios = kills.map((kill, index) => {
-        return kill===0 ? NaN : deaths[index]===0 ? Infinity : kill/deaths[index]
-      }).splice(8);
+      const ratios = kills
+        .map((kill, index) => {
+          return kill === 0
+            ? NaN
+            : deaths[index] === 0
+            ? Infinity
+            : kill / deaths[index];
+        })
+        .splice(8);
       const kill = stats.ranked['allkills'];
       const death = stats.ranked['alldeaths'];
-      ratios.push(kill===0 ? NaN : death===0 ? Infinity : kill/death);
+      ratios.push(kill === 0 ? NaN : death === 0 ? Infinity : kill / death);
       return { [memberName]: ratios.toString() };
     });
     return Object.assign({}, ...membersRatios);

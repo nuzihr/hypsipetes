@@ -1,14 +1,16 @@
 import { HttpModule, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { SeasonsModule } from './seasons/seasons.module';
-import { AppService} from './app.service';
+import { OperatorsModule } from './operators/operators.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import * as https from 'https';
 
 @Module({
   imports: [
     SeasonsModule,
+    OperatorsModule,
     HttpModule.register({
-      httpsAgent: new https.Agent({keepAlive: true})
+      httpsAgent: new https.Agent({ keepAlive: true }),
     }),
   ],
   controllers: [AppController],
