@@ -16,4 +16,10 @@ export class OperatorsController {
   async operator(@Param('operator') operatorName: string): Promise<any> {
     return this.operatorsService.getOperator(operatorName);
   }
+
+  @Get('seasonal/:operator')
+  @Render('operators-operator.hbs')
+  async seasonalOperator(@Param('operator') operatorName: string): Promise<any> {
+    return this.operatorsService.getSeasonalOperator(operatorName);
+  }
 }
