@@ -21,6 +21,7 @@ async function bootstrap() {
     },
     templates: join(__dirname, '..', 'views'),
   });
+  app.enableCors();
   const port: number = Number(process.env.PORT) || 3000;
   await app.listen(port, '0.0.0.0');
 }
