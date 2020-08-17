@@ -1,12 +1,6 @@
 import { Controller, Get, Render } from '@nestjs/common';
 
-@Controller()
+@Controller('api')
 export class AppController {
   constructor() {}
-
-  @Get()
-  @Render('index.hbs')
-  async root(): Promise<any> {
-    return {};
-  }
 }
