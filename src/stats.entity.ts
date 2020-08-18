@@ -284,6 +284,10 @@ export class Stats {
     return this.operators[operatorName].overall.losses;
   }
 
+  getPlayedMinutesByOperator(operatorName: string): number {
+    return this.operators[operatorName].overall.timeplayed/60
+  }
+
   getSeasonalKillsByOperator(operatorName: string): number {
     return this.operators[operatorName].seasonal.kills;
   }
@@ -298,5 +302,9 @@ export class Stats {
 
   getSeasonalLossesByOperator(operatorName: string): number {
     return this.operators[operatorName].seasonal.losses;
+  }
+
+  getSeasonalPlayedMinutesByOperator(operatorName: string): number {
+    return this.operators[operatorName].seasonal.timeplayed/60
   }
 }
