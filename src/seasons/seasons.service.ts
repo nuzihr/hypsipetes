@@ -31,8 +31,6 @@ export class SeasonsService {
       stats.getMmrsBySeasons().forEach((mmr, index) => {
         if (mmr) result[index][memberName] = mmr;
       });
-      const mmr = stats.ranked['mmr'];
-      if (mmr) result[result.length - 1][memberName] = mmr;
     });
     return result;
   }
@@ -61,10 +59,6 @@ export class SeasonsService {
         if (kill !== 0 && deaths[index] !== 0)
           result[index][memberName] = kill / deaths[index];
       });
-      const kill = stats.ranked['allkills'];
-      const death = stats.ranked['alldeaths'];
-      if (kill !== 0 && death !== 0)
-        result[result.length - 1][memberName] = kill / death;
     });
     result.splice(0, 8);
     return result;

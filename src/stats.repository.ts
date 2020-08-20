@@ -18,15 +18,13 @@ export class StatsRepository {
     return this.table[name];
   }
 
-  createAndSave(name, stats, ranked, operators, seasons, op_main, aliases) {
+  createAndSave(name, generic, seasonal, operators, weapons) {
     this.table[name] = new Stats(
       name,
-      stats,
-      ranked,
-      operators,
-      seasons,
-      op_main,
-      aliases,
+      generic.stats,
+      seasonal.seasons,
+      operators.operators,
+      weapons.weapons,
     );
   }
 }
