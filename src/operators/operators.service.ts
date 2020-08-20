@@ -34,7 +34,9 @@ export class OperatorsService {
       const wins = stats.getSeasonalWinsByOperator(operatorName);
       const losses = stats.getSeasonalLossesByOperator(operatorName);
       const wl = wins === 0 ? 0 : losses === 0 ? Infinity : wins / losses;
-      const playedMinutes = stats.getSeasonalPlayedMinutesByOperator(operatorName);
+      const playedMinutes = stats.getSeasonalPlayedMinutesByOperator(
+        operatorName,
+      );
       return { [memberName]: { x: kd, y: wl, z: playedMinutes } };
     });
     return Object.assign({}, ...membersOperator);
