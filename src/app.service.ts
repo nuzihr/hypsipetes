@@ -47,7 +47,7 @@ export class AppService implements OnModuleInit {
           memberName,
           'generic',
         );
-        const seasons = await this.getStatsFromApiWithRetry(
+        const seasonal = await this.getStatsFromApiWithRetry(
           memberName,
           'seasonal',
         );
@@ -63,7 +63,7 @@ export class AppService implements OnModuleInit {
         await this.statsRepository.createAndSave(
           memberName,
           generic,
-          seasons,
+          seasonal,
           operators,
           weapons,
         );

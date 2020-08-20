@@ -98,8 +98,8 @@ export class Stats {
       name: string;
       start_date: string;
       end_date: string;
-      resions: {
-        [resion: string]: {
+      regions: {
+        [region: string]: {
           season_id: number;
           region: string;
           abandons: number;
@@ -196,7 +196,7 @@ export class Stats {
 
   getMmrsBySeasons(): number[] {
     return Object.entries(this.seasonal).map(
-      ([season, ranked]) => ranked.resions.apac[0].mmr,
+      ([season, ranked]) => ranked.regions.apac[0].mmr,
     );
   }
 
