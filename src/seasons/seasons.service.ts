@@ -28,7 +28,7 @@ export class SeasonsService {
     ];
     members.forEach(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
-      stats.getMmrsBySeasons().forEach((mmr, index) => {
+      stats.getMmrsBySeasons().reverse().forEach((mmr, index) => {
         if (mmr) result[index][memberName] = mmr;
       });
     });
@@ -53,8 +53,8 @@ export class SeasonsService {
     ];
     members.forEach(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
-      const kills = stats.getKillsBySeasons();
-      const deaths = stats.getDeathsBySeasons();
+      const kills = stats.getKillsBySeasons().reverse();
+      const deaths = stats.getDeathsBySeasons().reverse();
       kills.forEach((kill, index) => {
         if (kill !== 0 && deaths[index] !== 0)
           result[index][memberName] = kill / deaths[index];
