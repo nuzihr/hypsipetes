@@ -202,13 +202,13 @@ export class Stats {
 
   getKillsBySeasons(): number[] {
     return Object.entries(this.seasonal).map(
-      ([season, ranked]) => ranked.resions.apac[0].kills,
+      ([season, ranked]) => ranked.regions.apac[0].kills,
     );
   }
 
   getDeathsBySeasons(): number[] {
     return Object.entries(this.seasonal).map(
-      ([season, ranked]) => ranked.resions.apac[0].deaths,
+      ([season, ranked]) => ranked.regions.apac[0].deaths,
     );
   }
 
