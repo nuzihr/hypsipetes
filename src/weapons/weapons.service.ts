@@ -17,6 +17,7 @@ export class WeaponsService {
       const kd = stats.getKdByWeapon(weaponName);
       const headshot = stats.getHeadShotPercentageByWeapon(weaponName);
       const playedTimes = stats.getPlayedTimesByWeapon(weaponName);
+      if (kd === NaN || headshot === NaN || playedTimes === NaN) return {}
       return { [memberName]: { x: kd, y: headshot, z: playedTimes } };
     });
     return Object.assign({}, ...membersOperator);
