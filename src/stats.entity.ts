@@ -227,10 +227,14 @@ export class Stats {
   }
 
   getKdByOperator(operatorName: string): number {
-    const operatorScore = this.operators.filter(
-      operator => operator.name === operatorName,
-    )[0];
-    return operatorScore.kd;
+    try {
+      const operatorScore = this.operators.filter(
+        operator => operator.name === operatorName,
+      )[0];
+      return operatorScore.kd;
+    } catch (err) {
+      console.error("Error: ",err, ',', operatorName);
+    }
   }
 
   getWinsByOperator(operatorName: string): number {
