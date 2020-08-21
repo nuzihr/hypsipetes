@@ -11,7 +11,6 @@ export class OperatorsService {
   }
 
   async getOperator(operatorName: string) {
-    console.log("Operator Name: ", operatorName);
     if(operatorName==="Nokk") operatorName="Nøkk";
     if(operatorName==="Capitao") operatorName="Capitão";
     if(operatorName==="Jager") operatorName="Jäger";

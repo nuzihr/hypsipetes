@@ -216,6 +216,7 @@ export class Stats {
     const operatorScore = this.operators.filter(
       operator => operator.name === operatorName,
     )[0];
+    if (!operatorScore) return 0;
     return operatorScore.kills;
   }
 
@@ -223,24 +224,23 @@ export class Stats {
     const operatorScore = this.operators.filter(
       operator => operator.name === operatorName,
     )[0];
+    if (!operatorScore) return 0;
     return operatorScore.deaths;
   }
 
   getKdByOperator(operatorName: string): number {
-    try {
-      const operatorScore = this.operators.filter(
-        operator => operator.name === operatorName,
-      )[0];
-      return operatorScore.kd;
-    } catch (err) {
-      console.error("Error: ",err, ',', operatorName);
-    }
+    const operatorScore = this.operators.filter(
+      operator => operator.name === operatorName,
+    )[0];
+    if (!operatorScore) return 0;
+    return operatorScore.kd;
   }
 
   getWinsByOperator(operatorName: string): number {
     const operatorScore = this.operators.filter(
       operator => operator.name === operatorName,
     )[0];
+    if (!operatorScore) return 0;
     return operatorScore.wins;
   }
 
@@ -248,6 +248,7 @@ export class Stats {
     const operatorScore = this.operators.filter(
       operator => operator.name === operatorName,
     )[0];
+    if (!operatorScore) return 0;
     return operatorScore.losses;
   }
 
@@ -255,6 +256,7 @@ export class Stats {
     const operatorScore = this.operators.filter(
       operator => operator.name === operatorName,
     )[0];
+    if (!operatorScore) return 0;
     return operatorScore.wl;
   }
 
@@ -262,6 +264,7 @@ export class Stats {
     const operatorScore = this.operators.filter(
       operator => operator.name === operatorName,
     )[0];
+    if (!operatorScore) return 0;
     return operatorScore.playtime / 60;
   }
 
