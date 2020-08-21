@@ -28,9 +28,12 @@ export class SeasonsService {
     ];
     members.forEach(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
-      stats.getMmrsBySeasons().reverse().forEach((mmr, index) => {
-        if (mmr) result[index][memberName] = mmr;
-      });
+      stats
+        .getMmrsBySeasons()
+        .reverse()
+        .forEach((mmr, index) => {
+          if (mmr) result[index][memberName] = mmr;
+        });
     });
     return result;
   }

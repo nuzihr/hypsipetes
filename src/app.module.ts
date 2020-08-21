@@ -2,6 +2,7 @@ import { HttpModule, Module } from '@nestjs/common';
 import { SeasonsModule } from './seasons/seasons.module';
 import { OperatorsModule } from './operators/operators.module';
 import { WeaponsModule } from './weapons/weapons.module';
+import { MembersModule } from './members/members.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import * as https from 'https';
@@ -11,6 +12,7 @@ import * as https from 'https';
     SeasonsModule,
     OperatorsModule,
     WeaponsModule,
+    MembersModule,
     HttpModule.register({
       httpsAgent: new https.Agent({ keepAlive: true }),
     }),
