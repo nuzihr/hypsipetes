@@ -10,7 +10,8 @@ export class WeaponsService {
     this.statsRepository = StatsRepository.getInstance();
   }
 
-  async getWeapon(weaponName: string) {
+  async getWeapon(name: string) {
+    const weaponName = name.replace(/(_)/g, ' ');
     const membersOperator = members.map(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
       const kd = stats.getKdByWeapon(weaponName);
