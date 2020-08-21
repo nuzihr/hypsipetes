@@ -260,4 +260,25 @@ export class Stats {
     )[0];
     return operatorScore.playtime / 60;
   }
+
+  getKdByWeapon(weaponName: string): number {
+    const weaponScore = this.weapons.filter(
+      weapon => weapon.weapon === weaponName,
+    )[0];
+    return weaponScore.kd;
+  }
+
+  getHeadShotPercentageByWeapon(weaponName: string): number {
+    const weaponScore = this.weapons.filter(
+      weapon => weapon.weapon === weaponName,
+    )[0];
+    return weaponScore.headshot_percentage;
+  }
+
+  getPlayedTimesByWeapon(weaponName: string): number {
+    const weaponScore = this.weapons.filter(
+      weapon => weapon.weapon === weaponName,
+    )[0];
+    return weaponScore.times_chosen;
+  }
 }
