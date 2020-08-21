@@ -265,6 +265,7 @@ export class Stats {
     const weaponScore = this.weapons.filter(
       weapon => weapon.weapon === weaponName,
     )[0];
+    if (!weaponScore) return NaN;
     return weaponScore.kd;
   }
 
@@ -272,6 +273,7 @@ export class Stats {
     const weaponScore = this.weapons.filter(
       weapon => weapon.weapon === weaponName,
     )[0];
+    if (!weaponScore) return NaN;
     return weaponScore.headshot_percentage;
   }
 
@@ -279,6 +281,7 @@ export class Stats {
     const weaponScore = this.weapons.filter(
       weapon => weapon.weapon === weaponName,
     )[0];
+    if (!weaponScore) return NaN;
     return weaponScore.times_chosen;
   }
 }
