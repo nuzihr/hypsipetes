@@ -3,6 +3,11 @@ import * as pRetry from 'p-retry';
 import * as pTimeout from 'p-timeout';
 import { StatsRepository } from './stats.repository';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
+import {
+  DocumentData,
+  DocumentReference,
+  Firestore,
+} from '@google-cloud/firestore';
 
 export const members = [
   'Im_yoncharu823',
@@ -30,16 +35,28 @@ export class AppService implements OnModuleInit {
     this.client = new SecretManagerServiceClient();
   }
 
-  async accessSecret(): Promise<any> {
-    const name = 'projects/nuzihr-286314/secrets/r6stats/versions/latest';
-    const [version] = await this.client.accessSecretVersion({
-      name: name,
-    });
-    // Extract the payload as a string.
-    return version.payload.data.toString();
+  async onModuleInit(): Promise<any> {
+    const documents = await new Firestore({ projectId: 'nuzihr-286314' })
+      .collection('players')
+      .listDocuments();
+    await Promise.all(
+      documents.map(async doc => {
+        const snapshot = await doc.get();
+        const { name, generic, seasonal, operators, weapons } = snapshot.data();
+        this.statsRepository.createAndSave(
+          name,
+          generic,
+          seasonal,
+          operators,
+          weapons,
+        );
+        return;
+      }),
+    );
+    console.log(`The App module has been initialized.`);
   }
 
-  async onModuleInit(): Promise<any> {
+  private async getStats() {
     this.token = await this.accessSecret();
     await Promise.all(
       members.map(async memberName => {
@@ -70,7 +87,15 @@ export class AppService implements OnModuleInit {
         return;
       }),
     );
-    console.log(`The App module has been initialized.`);
+  }
+
+  async accessSecret(): Promise<any> {
+    const name = 'projects/nuzihr-286314/secrets/r6stats/versions/latest';
+    const [version] = await this.client.accessSecretVersion({
+      name: name,
+    });
+    // Extract the payload as a string.
+    return version.payload.data.toString();
   }
 
   private async getStatsFromApiWithRetry(
