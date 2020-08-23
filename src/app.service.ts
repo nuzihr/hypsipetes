@@ -3,7 +3,11 @@ import * as pRetry from 'p-retry';
 import * as pTimeout from 'p-timeout';
 import { StatsRepository } from './stats.repository';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
-import { DocumentData, DocumentReference, Firestore } from '@google-cloud/firestore';
+import {
+  DocumentData,
+  DocumentReference,
+  Firestore,
+} from '@google-cloud/firestore';
 
 export const members = [
   'Im_yoncharu823',
@@ -32,20 +36,23 @@ export class AppService implements OnModuleInit {
   }
 
   async onModuleInit(): Promise<any> {
-    const firestore = new Firestore({ projectId: 'nuzihr-286314' });
-    const documents = await firestore.collection('players').listDocuments();
-    await Promise.all(documents.map(async (doc) => {
-      const snapshot = await doc.get();
-      const { name, generic, seasonal, operators, weapons } = snapshot.data()
-      this.statsRepository.createAndSave(
-        name,
-        generic,
-        seasonal,
-        operators,
-        weapons,
-      );
-      return
-    }));
+    const documents = await new Firestore({ projectId: 'nuzihr-286314' })
+      .collection('players')
+      .listDocuments();
+    await Promise.all(
+      documents.map(async doc => {
+        const snapshot = await doc.get();
+        const { name, generic, seasonal, operators, weapons } = snapshot.data();
+        this.statsRepository.createAndSave(
+          name,
+          generic,
+          seasonal,
+          operators,
+          weapons,
+        );
+        return;
+      }),
+    );
     console.log(`The App module has been initialized.`);
   }
 

@@ -11,9 +11,9 @@ export class OperatorsService {
   }
 
   async getOperator(operatorName: string) {
-    if(operatorName==="Nokk") operatorName="Nøkk";
-    if(operatorName==="Capitao") operatorName="Capitão";
-    if(operatorName==="Jager") operatorName="Jäger";
+    if (operatorName === 'Nokk') operatorName = 'Nøkk';
+    if (operatorName === 'Capitao') operatorName = 'Capitão';
+    if (operatorName === 'Jager') operatorName = 'Jäger';
     const membersOperator = members.map(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
       const kd = stats.getKdByOperator(operatorName);

@@ -6,9 +6,7 @@ export class OperatorsController {
   constructor(private readonly operatorsService: OperatorsService) {}
 
   @Get(':operator')
-  async operator(
-    @Param('operator') operatorName: string,
-  ): Promise<any> {
+  async operator(@Param('operator') operatorName: string): Promise<any> {
     return this.operatorsService.getOperator(operatorName);
   }
 }
