@@ -194,22 +194,28 @@ export class Stats {
     return this._weapons;
   }
 
-  getMmrsBySeasons(): number[] {
-    return Object.entries(this.seasonal).map(
-      ([season, ranked]) => ranked.regions.apac[0].mmr,
-    );
+  getMmrsBySeasons(): { [season: string]: number } {
+    const mmrs = {};
+    Object.entries(this.seasonal).forEach(([season, ranked]) => {
+      mmrs[season] = ranked.regions.apac[0].mmr;
+    });
+    return mmrs;
   }
 
-  getKillsBySeasons(): number[] {
-    return Object.entries(this.seasonal).map(
-      ([season, ranked]) => ranked.regions.apac[0].kills,
-    );
+  getKillsBySeasons(): { [season: string]: number } {
+    const kills = {};
+    Object.entries(this.seasonal).forEach(([season, ranked]) => {
+      kills[season] = ranked.regions.apac[0].kills;
+    });
+    return kills;
   }
 
-  getDeathsBySeasons(): number[] {
-    return Object.entries(this.seasonal).map(
-      ([season, ranked]) => ranked.regions.apac[0].deaths,
-    );
+  getDeathsBySeasons(): { [season: string]: number } {
+    const deaths = {};
+    Object.entries(this.seasonal).forEach(([season, ranked]) => {
+      deaths[season] = ranked.regions.apac[0].deaths;
+    });
+    return deaths;
   }
 
   getKillsByOperator(operatorName: string): number {

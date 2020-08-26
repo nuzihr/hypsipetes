@@ -12,55 +12,56 @@ export class SeasonsService {
 
   async getMmr() {
     const result = [
-      { name: 'Y2S2' },
-      { name: 'Y2S3' },
-      { name: 'Y2S4' },
-      { name: 'Y3S1' },
-      { name: 'Y3S2' },
-      { name: 'Y3S3' },
-      { name: 'Y3S4' },
-      { name: 'Y4S1' },
-      { name: 'Y4S2' },
-      { name: 'Y4S3' },
-      { name: 'Y4S4' },
-      { name: 'Y5S1' },
-      { name: 'Y5S2' },
+      { name: 'health' },
+      { name: 'blood_orchid' },
+      { name: 'white_noise' },
+      { name: 'chimera' },
+      { name: 'para_bellum' },
+      { name: 'grim_sky' },
+      { name: 'wind_bastion' },
+      { name: 'burnt_horizon' },
+      { name: 'phantom_sight' },
+      { name: 'ember_rise' },
+      { name: 'shifting_tides' },
+      { name: 'void_edge' },
+      { name: 'steel_wave' },
     ];
     members.forEach(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
-      stats
-        .getMmrsBySeasons()
-        .reverse()
-        .forEach((mmr, index) => {
-          if (mmr) result[index][memberName] = mmr;
-        });
+      const mmrs = stats.getMmrsBySeasons();
+      result.forEach(obj => {
+        const season = obj.name;
+        obj[memberName] = mmrs[season];
+      });
     });
     return result;
   }
 
   async getKillRatio() {
     const result = [
-      { name: 'Y2S2' },
-      { name: 'Y2S3' },
-      { name: 'Y2S4' },
-      { name: 'Y3S1' },
-      { name: 'Y3S2' },
-      { name: 'Y3S3' },
-      { name: 'Y3S4' },
-      { name: 'Y4S1' },
-      { name: 'Y4S2' },
-      { name: 'Y4S3' },
-      { name: 'Y4S4' },
-      { name: 'Y5S1' },
-      { name: 'Y5S2' },
+      { name: 'health' },
+      { name: 'blood_orchid' },
+      { name: 'white_noise' },
+      { name: 'chimera' },
+      { name: 'para_bellum' },
+      { name: 'grim_sky' },
+      { name: 'wind_bastion' },
+      { name: 'burnt_horizon' },
+      { name: 'phantom_sight' },
+      { name: 'ember_rise' },
+      { name: 'shifting_tides' },
+      { name: 'void_edge' },
+      { name: 'steel_wave' },
     ];
     members.forEach(memberName => {
       const stats: Stats = this.statsRepository.findByName(memberName);
-      const kills = stats.getKillsBySeasons().reverse();
-      const deaths = stats.getDeathsBySeasons().reverse();
-      kills.forEach((kill, index) => {
-        if (kill !== 0 && deaths[index] !== 0)
-          result[index][memberName] = kill / deaths[index];
+      const kills = stats.getKillsBySeasons();
+      const deaths = stats.getDeathsBySeasons();
+      result.forEach(obj => {
+        const season = obj.name;
+        const kill = kills[season];
+        const death = deaths[season];
+        if (kill !== 0 && death !== 0) obj[memberName] = kill / death;
       });
     });
     result.splice(0, 8);
